@@ -36,6 +36,8 @@
       display: none;
       padding: 40px;
       text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .collage {
@@ -80,7 +82,16 @@
   }
   .collage img { transform: rotate(calc(-6deg + 12deg * random())); }
   .photo-wrapper { position: relative; display:flex; flex-wrap:wrap; gap:25px; justify-content:center; }
-  .photo-wrapper img { cursor:pointer; transition:0.3s; }
+  .photo-wrapper img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: 0.3s;
+      transform: rotate(calc(-6deg + 12deg * var(--r)));
+    }
   .photo-wrapper img:hover { transform: scale(1.05); }
   .modal {
     display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7);
