@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Подарунок для Мами</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #ffe3ed, #fad5ff, #d9e8ff);
+      background-size: 400% 400%;
+      animation: bgflow 16s ease infinite;
+    }
+
+    @keyframes bgflow {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .center-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #ff6fa8;
+      color: white;
+      border: none;
+      padding: 20px 50px;
+      font-size: 28px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+    }
+
+    .center-btn:hover {
+      background: #ff4f90;
+    }
+
+    #gallery {
+      display: none;
+      padding: 40px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .photo-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .photo-wrapper img {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transition: 0.3s;
+      transform: rotate(calc(-6deg + 12deg * var(--r)));
+    }
+
+    .photo-wrapper img:hover {
+      transform: scale(1.06) rotate(0deg);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      border-radius: 12px;
+    }
+
+    .modal-text {
+      margin-top: 15px;
+      font-size: 20px;
+      color: #444;
+    }
+
+    .close {
+      margin-top: 12px;
+      cursor: pointer;
+      color: #ff4f90;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .heart {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      color: #ff4f90;
+      animation: fall linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-20px); opacity: 1; }
+      100% { transform: translateY(120vh); opacity: 0; }
+    }
+  </style>
+
+</head>
+<body>
+
+<button id="startBtn" class="center-btn">ПРИНЯТЬ ПОДАРОК</button>
+
+<div id="gallery">
+  <h1 style="font-size: 42px; color: #ff4f90; margin-bottom: 20px;">З Днем Народження, Мамочко ❤️</h1>
+
+  <p style="font-size: 22px; color:#444; max-width: 700px; margin: 0 auto 30px;">
+    Привіт, мамо, вітаю тебе з твоїм Днем народження. Я вдячний тобі за все, що ти для мене робила,
+    робиш і я впевнений, що ще зробиш. Я бажаю, щоб у твоїй душі завжди залишалося 19 років — як у цих квітів.
+    Побільше посміхайся і живи для себе. Я тебе люблю ❤️
+  </p>
+
+  <div class="photo-wrapper">
+    <img src="photo_1.jpg" style="--r: 0.1" onclick="openModal('photo_1.jpg')">
+    <img src="photo_2.jpg" style="--r: -0.3" onclick="openModal('photo_2.jpg')">
+    <img src="photo_3.jpg" style="--r: 0.5" onclick="openModal('photo_3.jpg')">
+    <img src="photo_4.jpg" style="--r: -0.4" onclick="openModal('photo_4.jpg')">
+    <img src="photo_5.jpg" style="--r: 0.2" onclick="openModal('photo_5.jpg')">
+  </div>
+</div>
+
+<div id="modal" class="modal" onclick="modalBackgroundClick(event)">
+  <div class="modal-content">
+    <img id="modal-img" src="" />
+    <div class="modal-text">Мамо, ти — найдобріше світло мого життя ❤️</div>
+    <div class="modal-text">Хай кожен день приносить тобі радість і тепло ✨</div>
+    <div class="modal-text">Ти заслуговуєш на все найкраще у світі 🌸</div>
+    <div class="close" onclick="closeModal()">Закрити</div>
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const gallery = document.getElementById('gallery');
+  const music = document.getElementById('music');
+  const modal = document.getElementById('modal');
+
+  startBtn.addEventListener('click', () => {
+    startBtn.style.display = 'none';
+    gallery.style.display = 'block';
+    music.play().catch(()=>{});
+    setInterval(createHeart, 300);
+  });
+
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '❤';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = 4 + Math.random() * 3 + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+  }
+
+  function openModal(src) {
+    document.getElementById('modal-img').src = src;
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  function modalBackgroundClick(e) {
+    if (e.target.id === 'modal') closeModal();
+  }
+</script>
+
+</body>
+</html>
