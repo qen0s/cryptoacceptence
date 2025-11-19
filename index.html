@@ -1,16 +1,24 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Подарок для Мамы</title>
+  <title>Подарунок для Мами</title>
+
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Georgia', serif;
-      background: #fff0f5;
       overflow-x: hidden;
+
+      /* Нежный фон с эффектом хризантем */
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 203, 219, 0.8) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(255, 231, 186, 0.9) 0, transparent 50%),
+        radial-gradient(circle at 0% 80%, rgba(210, 235, 255, 0.9) 0, transparent 55%),
+        linear-gradient(135deg, #ffe3ed, #fad5ff, #d9e8ff);
+      background-size: cover;
     }
 
     .center-btn {
@@ -28,6 +36,7 @@
       transition: 0.3s;
       box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
     }
+
     .center-btn:hover {
       background: #ff4f90;
     }
@@ -40,49 +49,14 @@
       margin: 0 auto;
     }
 
-    .collage {
+    .photo-wrapper {
       display: flex;
       flex-wrap: wrap;
+      gap: 25px;
       justify-content: center;
-      gap: 20px;
     }
 
-    .collage img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    /* Сердечки */
-    .heart {
-      position: fixed;
-      top: -20px;
-      font-size: 24px;
-      color: #ff4f90;
-      animation: fall linear forwards;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-20px); opacity: 1; }
-      100% { transform: translateY(120vh); opacity: 0; }
-    }
-  </style>
-<style>
-  body {
-    background: linear-gradient(135deg, #ffe3ed, #fad5ff, #d9e8ff);
-    background-size: 400% 400%;
-    animation: bgflow 18s ease infinite;
-  }
-  @keyframes bgflow {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
-  .collage img { transform: rotate(calc(-6deg + 12deg * random())); }
-  .photo-wrapper { position: relative; display:flex; flex-wrap:wrap; gap:25px; justify-content:center; }
-  .photo-wrapper img {
+    .photo-wrapper img {
       width: 220px;
       height: 220px;
       object-fit: cover;
@@ -92,47 +66,128 @@
       transition: 0.3s;
       transform: rotate(calc(-6deg + 12deg * var(--r)));
     }
-  .photo-wrapper img:hover { transform: scale(1.05); }
-  .modal {
-    display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7);
-    backdrop-filter: blur(3px); justify-content:center; align-items:center;
-  }
-  .modal-content {
-    background:white; padding:20px; border-radius:14px; max-width:90%; text-align:center;
-  }
-  .modal-content img {
-      max-width: 70%;
-      max-height: 60vh;
+
+    .photo-wrapper img:hover {
+      transform: scale(1.06) rotate(0deg);
+    }
+
+    /* Модалка */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      max-width: 900px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .modal-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .modal-content img {
+      max-width: 60%;
+      max-height: 50vh;
       border-radius: 12px;
       object-fit: contain;
     }
-  .modal-text { margin-top:15px; font-size:20px; color:#333; }
-  .close { margin-top:12px; cursor:pointer; color:#ff4f90; font-size:22px; font-weight:bold; }
-</style>
+
+    .arrow {
+      font-size: 40px;
+      font-weight: bold;
+      color: #ff4f90;
+      cursor: pointer;
+      user-select: none;
+      padding: 10px;
+      transition: 0.2s;
+    }
+
+    .arrow:hover {
+      transform: scale(1.2);
+    }
+
+    .modal-text {
+      margin-top: 5px;
+      font-size: 20px;
+      color: #444;
+    }
+
+    .close {
+      margin-top: 12px;
+      cursor: pointer;
+      color: #ff4f90;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .heart {
+      position: fixed;
+      top: -20px;
+      font-size: 24px;
+      color: #ff4f90;
+      animation: fall linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-20px); opacity: 1; }
+      100% { transform: translateY(120vh); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
 
 <button id="startBtn" class="center-btn">ПРИНЯТЬ ПОДАРОК</button>
 
 <div id="gallery">
-  <h1 style="font-size: 42px; color: #ff4f90; margin-bottom: 20px;">С Днём Рождения, Мамочка ❤️</h1>
-  <p style="font-size: 22px; color:#444; max-width: 700px; margin: 0 auto 30px;">Привіт, мамо, вітаю тебе з твоїм Днем народження. Я вдячний тобі за все, що ти для мене робила, робиш і я впевнений, що ще зробиш. Я бажаю, щоб у твоїй душі завжди залишалося 19 років — як у цих квітів. Побільше посміхайся і живи для себе. Я тебе люблю ❤️</p>
+  <h1 style="font-size: 42px; color: #ff4f90; margin-bottom: 20px;">З Днем Народження, Мамочко ❤️</h1>
+
+  <p style="font-size: 22px; color:#444; max-width: 700px; margin: 0 auto 30px;">
+    Привіт, мамо, вітаю тебе з твоїм Днем народження. Я вдячний тобі за все, що ти для мене робила,
+    робиш і я впевнений, що ще зробиш. Я бажаю, щоб у твоїй душі завжди залишалося 19 років — як у цих квітів.
+    Побільше посміхайся і живи для себе. Я тебе люблю ❤️
+  </p>
 
   <div class="photo-wrapper">
-    <img src="photo_1.jpg" onclick="openModal('photo_1.jpg')">
-    <img src="photo_2.jpg" onclick="openModal('photo_2.jpg')">
-    <img src="photo_3.jpg" onclick="openModal('photo_3.jpg')">
-    <img src="photo_4.jpg" onclick="openModal('photo_4.jpg')">
-    <img src="photo_5.jpg" onclick="openModal('photo_5.jpg')">
+    <img src="photo_1.jpg" style="--r: 0.1" onclick="openModal(0)">
+    <img src="photo_2.jpg" style="--r: -0.3" onclick="openModal(1)">
+    <img src="photo_3.jpg" style="--r: 0.5" onclick="openModal(2)">
+    <img src="photo_4.jpg" style="--r: -0.4" onclick="openModal(3)">
+    <img src="photo_5.jpg" style="--r: 0.2" onclick="openModal(4)">
   </div>
+</div>
 
-  <div id="modal" class="modal" onclick="closeModal(event)">
-    <div class="modal-content">
-      <img id="modal-img" src="" />
-      <div class="modal-text">Мамо, ти — найтепліша частинка мого світу. Дякую за кожну посмішку, кожну підтримку і кожну мить любові ❤️</div>
-      <div class="modal-text">Нехай твоє серце завжди цвіте, а життя приносить лише світлі дні 🌸</div>
-      <div class="close" onclick="closeModal()">Закрити</div>
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div id="modal" class="modal" onclick="onModalBackgroundClick(event)">
+  <div class="modal-content">
+    <div class="modal-body">
+      <span class="arrow" onclick="prevPhoto(event)">‹</span>
+      <img id="modal-img" src="" alt="Фото" />
+      <span class="arrow" onclick="nextPhoto(event)">›</span>
     </div>
+    <div class="modal-text">Мамо, ти — найдобріше світло мого життя ❤️</div>
+    <div class="modal-text">Хай кожен день приносить тобі радість і тепло ✨</div>
+    <div class="modal-text">Ти заслуговуєш на все найкраще у світі 🌸</div>
+    <div class="close" onclick="closeModal(event)">Закрити</div>
   </div>
 </div>
 
@@ -144,11 +199,23 @@
   const startBtn = document.getElementById('startBtn');
   const gallery = document.getElementById('gallery');
   const music = document.getElementById('music');
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-img');
+
+  const photos = [
+    'photo_1.jpg',
+    'photo_2.jpg',
+    'photo_3.jpg',
+    'photo_4.jpg',
+    'photo_5.jpg'
+  ];
+
+  let currentIndex = 0;
 
   startBtn.addEventListener('click', () => {
     startBtn.style.display = 'none';
     gallery.style.display = 'block';
-    music.play();
+    music.play().catch(()=>{});
     setInterval(createHeart, 300);
   });
 
@@ -161,8 +228,39 @@
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 7000);
   }
-function openModal(src){ document.getElementById('modal').style.display='flex'; document.getElementById('modal-img').src=src; }
-function closeModal(event){ if(event.target.id === 'modal' || event.target.classList.contains('close')){ document.getElementById('modal').style.display='none'; }}(){ document.getElementById('modal').style.display='none'; }
+
+  function openModal(index) {
+    currentIndex = index;
+    modalImg.src = photos[currentIndex];
+    modal.style.display = 'flex';
+  }
+
+  function showPhoto() {
+    modalImg.src = photos[currentIndex];
+  }
+
+  function prevPhoto(event) {
+    event.stopPropagation();
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    showPhoto();
+  }
+
+  function nextPhoto(event) {
+    event.stopPropagation();
+    currentIndex = (currentIndex + 1) % photos.length;
+    showPhoto();
+  }
+
+  function closeModal(event) {
+    event.stopPropagation();
+    modal.style.display = 'none';
+  }
+
+  function onModalBackgroundClick(event) {
+    if (event.target.id === 'modal') {
+      modal.style.display = 'none';
+    }
+  }
 </script>
 
 </body>
