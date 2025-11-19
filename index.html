@@ -12,13 +12,13 @@
       font-family: 'Georgia', serif;
       overflow-x: hidden;
 
-      /* Нежный фон с эффектом хризантем */
+      /* Фон з хризантемами + легкий градієнт зверху */
       background:
-        radial-gradient(circle at 10% 20%, rgba(255, 203, 219, 0.8) 0, transparent 55%),
-        radial-gradient(circle at 80% 0%, rgba(255, 231, 186, 0.9) 0, transparent 50%),
-        radial-gradient(circle at 0% 80%, rgba(210, 235, 255, 0.9) 0, transparent 55%),
-        linear-gradient(135deg, #ffe3ed, #fad5ff, #d9e8ff);
+        linear-gradient(135deg, rgba(255, 227, 237, 0.85), rgba(250, 213, 255, 0.85), rgba(217, 232, 255, 0.85)),
+        url('chrysanthemums.jpg');
       background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
 
     .center-btn {
@@ -176,7 +176,7 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО -->
+<!-- МОДАЛЬНЕ ВІКНО -->
 <div id="modal" class="modal" onclick="onModalBackgroundClick(event)">
   <div class="modal-content">
     <div class="modal-body">
@@ -184,9 +184,7 @@
       <img id="modal-img" src="" alt="Фото" />
       <span class="arrow" onclick="nextPhoto(event)">›</span>
     </div>
-    <div class="modal-text">Мамо, ти — найдобріше світло мого життя ❤️</div>
-    <div class="modal-text">Хай кожен день приносить тобі радість і тепло ✨</div>
-    <div class="modal-text">Ти заслуговуєш на все найкраще у світі 🌸</div>
+    <div id="modal-text" class="modal-text"></div>
     <div class="close" onclick="closeModal(event)">Закрити</div>
   </div>
 </div>
@@ -201,6 +199,7 @@
   const music = document.getElementById('music');
   const modal = document.getElementById('modal');
   const modalImg = document.getElementById('modal-img');
+  const modalText = document.getElementById('modal-text');
 
   const photos = [
     'photo_1.jpg',
@@ -208,6 +207,15 @@
     'photo_3.jpg',
     'photo_4.jpg',
     'photo_5.jpg'
+  ];
+
+  /* Різні побажання під КОЖНЕ фото */
+  const messages = [
+    "Мамо, дякую тобі за всі роки, коли ти вірила в мене, навіть тоді, коли я сам у себе не вірив 💛",
+    "Ти завжди була поруч у найважчі моменти. Нехай і в твоєму житті завжди буде хтось, хто так само тримає тебе за руку 🤍",
+    "Коли ти посміхаєшся, світ навколо стає теплішим. Нехай твоя посмішка ніколи не зникає 🌞",
+    "Ти вчиш мене доброті, терпінню й любові. Я хочу, щоб у твоєму серці завжди було спокійно й світло 🌸",
+    "Ти — найрідніша людина. Хай кожен новий день приносить тобі трохи більше щастя, ніж учора 💐"
   ];
 
   let currentIndex = 0;
@@ -231,12 +239,13 @@
 
   function openModal(index) {
     currentIndex = index;
-    modalImg.src = photos[currentIndex];
+    showPhoto();
     modal.style.display = 'flex';
   }
 
   function showPhoto() {
     modalImg.src = photos[currentIndex];
+    modalText.textContent = messages[currentIndex];
   }
 
   function prevPhoto(event) {
